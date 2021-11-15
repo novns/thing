@@ -1,0 +1,20 @@
+## Local files
+
+*~
+
+
+## Autotools
+
+*.in
+
+Makefile
+
+/*.cache
+/*.log
+
+/config.*
+/aclocal.m4
+/configure
+/configure.scan
+/install-sh
+/missing
