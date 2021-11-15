@@ -1,12 +1,16 @@
 ## Local files
 
+*.o
 *~
+
+/src/thing-test
 
 
 ## Autotools
 
 *.in
 
+.deps/
 Makefile
 
 /*.cache
@@ -14,7 +18,10 @@ Makefile
 
 /config.*
 /aclocal.m4
+/compile
 /configure
 /configure.scan
+/depcomp
 /install-sh
 /missing
+/stamp-h1

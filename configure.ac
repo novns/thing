@@ -7,6 +7,8 @@ AM_INIT_AUTOMAKE([foreign no-dist subdir-objects -Wall -Werror])
 
 # Checks for programs
 
+AC_PROG_CC
+
 
 # Checks for libraries
 
@@ -22,6 +24,11 @@ AM_INIT_AUTOMAKE([foreign no-dist subdir-objects -Wall -Werror])
 
 # Output
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([
+    Makefile
+    src/Makefile
+])
+
+AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
