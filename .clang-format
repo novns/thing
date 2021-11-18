@@ -1,0 +1,5 @@
+BasedOnStyle: WebKit
+
+MaxEmptyLinesToKeep: 2
+PointerAlignment: Right
+Standard: Latest
