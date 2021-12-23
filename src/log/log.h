@@ -27,4 +27,8 @@ void log_printf(int level, const char *format, ...);
 
 #define log_test(...) log_printf(LOG_TEST, __VA_ARGS__)
 
+#ifdef ENABLE_DEBUG
 #define log_debug(...) log_printf(LOG_DEBUG, __VA_ARGS__)
+#else
+#define log_debug(...) ((void)0)
+#endif
