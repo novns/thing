@@ -1,7 +1,8 @@
 AC_PREREQ([2.71])
 
-AC_INIT([Thing], [0.00], [nick.novikov@gmail.com])
+AC_CONFIG_MACRO_DIRS([m4])
 
+AC_INIT([Thing], [0.00], [nick.novikov@gmail.com])
 AM_INIT_AUTOMAKE([foreign no-dist subdir-objects -Wall -Werror])
 
 
@@ -22,6 +23,11 @@ AC_PROG_CC
 # Checks for library functions
 
 AC_CHECK_FUNCS([strerror])
+
+
+# Configuration
+
+FEATURE_DISABLED(debug, DEBUG, [verbose debugging])
 
 
 # Output
