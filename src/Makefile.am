@@ -11,3 +11,7 @@ LOG_SOURCES = \
 thing_test_SOURCES = \
 	$(LOG_SOURCES) \
 	main.c main.h
+
+
+check: thing-test
+	./$<
