@@ -1,5 +1,6 @@
 BasedOnStyle: WebKit
 
+AlignAfterOpenBracket: true
 MaxEmptyLinesToKeep: 2
 PointerAlignment: Right
 Standard: Latest

@@ -15,7 +15,7 @@ static const char *const log_levels[] = {
 
 #define DATETIME_BUF_SIZE 20
 
-void log_printf(int level, const char *format, ...)
+void log_printf(SOURCE_INFO_ARGS, int level, const char *format, ...)
 {
     // Save errno
 
@@ -34,7 +34,8 @@ void log_printf(int level, const char *format, ...)
 
     // Message
 
-    printf("%s  %s  ", datetime, log_levels[level]);
+    printf("%s  %s  " SOURCE_INFO_FORMAT,
+           datetime, log_levels[level], SOURCE_INFO_VARS);
 
     va_list args;
     va_start(args, format);
