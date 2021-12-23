@@ -1,5 +1,6 @@
 #include "main.h"
 
+#include <errno.h>
 #include <time.h>
 
 
@@ -16,6 +17,12 @@ static const char *const log_levels[] = {
 
 void log_printf(int level, const char *format, ...)
 {
+    // Save errno
+
+    int err = errno;
+    errno = 0;
+
+
     // Date & time
 
     time_t timestamp = time(NULL);
@@ -33,6 +40,9 @@ void log_printf(int level, const char *format, ...)
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
+
+    if (err)
+        printf("  (%s)", strerror(err));
 
     putchar('\n');
 }

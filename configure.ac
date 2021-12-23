@@ -21,6 +21,8 @@ AC_PROG_CC
 
 # Checks for library functions
 
+AC_CHECK_FUNCS([strerror])
+
 
 # Output
 
