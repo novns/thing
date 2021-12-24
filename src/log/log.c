@@ -15,8 +15,8 @@ static const char *const log_levels[] = {
 };
 
 
-static inline void log_vfprintf(FILE *stream, SOURCE_INFO_ARGS,
-                                const char *datetime, int level, int err,
+static inline void log_vfprintf(FILE *stream,
+                                const char *datetime, int level, SOURCE_INFO_ARGS, int err,
                                 const char *format, va_list args)
 {
     fprintf(stream, "%s  %s  " SOURCE_INFO_FORMAT,
@@ -33,7 +33,7 @@ static inline void log_vfprintf(FILE *stream, SOURCE_INFO_ARGS,
 
 #define DATETIME_BUF_SIZE 20
 
-void log_printf(SOURCE_INFO_ARGS, int level, const char *format, ...)
+void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 {
     // Save errno
 
@@ -63,7 +63,7 @@ void log_printf(SOURCE_INFO_ARGS, int level, const char *format, ...)
         if (level < out->level_from || level > out->level_to)
             continue;
 
-        log_vfprintf(out->stream, SOURCE_INFO_VARS, datetime, level, err, format, args);
+        log_vfprintf(out->stream, datetime, level, SOURCE_INFO_VARS, err, format, args);
     }
 
     va_end(args);
