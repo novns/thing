@@ -9,6 +9,7 @@ AM_INIT_AUTOMAKE([foreign no-dist subdir-objects -Wall -Werror])
 # Checks for programs
 
 AC_PROG_CC
+AC_PROG_MAKE_SET
 
 
 # Checks for libraries
@@ -18,6 +19,8 @@ AC_PROG_CC
 
 
 # Checks for typedefs, structures, and compiler characteristics
+
+AC_C_INLINE
 
 
 # Checks for library functions

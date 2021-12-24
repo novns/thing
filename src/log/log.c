@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include "internal.h"
+
 #include <errno.h>
 #include <time.h>
 
@@ -13,6 +15,22 @@ static const char *const log_levels[] = {
 };
 
 
+static inline void log_vfprintf(FILE *stream, SOURCE_INFO_ARGS,
+                                const char *datetime, int level, int err,
+                                const char *format, va_list args)
+{
+    fprintf(stream, "%s  %s  " SOURCE_INFO_FORMAT,
+            datetime, log_levels[level], SOURCE_INFO_VARS);
+
+    vfprintf(stream, format, args);
+
+    if (err)
+        fprintf(stream, "  (%s)", strerror(err));
+
+    putc('\n', stream);
+}
+
+
 #define DATETIME_BUF_SIZE 20
 
 void log_printf(SOURCE_INFO_ARGS, int level, const char *format, ...)
@@ -20,7 +38,6 @@ void log_printf(SOURCE_INFO_ARGS, int level, const char *format, ...)
     // Save errno
 
     int err = errno;
-    errno = 0;
 
 
     // Date & time
@@ -34,16 +51,25 @@ void log_printf(SOURCE_INFO_ARGS, int level, const char *format, ...)
 
     // Message
 
-    printf("%s  %s  " SOURCE_INFO_FORMAT,
-           datetime, log_levels[level], SOURCE_INFO_VARS);
+    extern log_output_t *log_outputs;
+    extern int log_outputs_count;
+
+    log_output_t *out = log_outputs;
 
     va_list args;
     va_start(args, format);
-    vprintf(format, args);
+
+    for (int i = 0; i < log_outputs_count; i++, out++) {
+        if (level < out->level_from || level > out->level_to)
+            continue;
+
+        log_vfprintf(out->stream, SOURCE_INFO_VARS, datetime, level, err, format, args);
+    }
+
     va_end(args);
 
-    if (err)
-        printf("  (%s)", strerror(err));
 
-    putchar('\n');
+    // Reset errno
+
+    errno = 0;
 }
