@@ -12,6 +12,11 @@ enum log_level {
 };
 
 
+void log_open_stream(int level_from, int level_to, FILE *stream);
+
+void log_close();
+
+
 #ifdef ENABLE_DEBUG
 
 #define SOURCE_INFO_ARGS const char *si_func, const char *si_file, int si_line
