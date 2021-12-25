@@ -5,6 +5,7 @@
 
 typedef enum log_type {
     LOG_TYPE_STREAM,
+    LOG_TYPE_FILE,
 } log_type_t;
 
 
@@ -13,6 +14,8 @@ typedef struct log_output {
 
     int level_from;
     int level_to;
+
+    const char *file_path;
 
     FILE *stream;
 } log_output_t;

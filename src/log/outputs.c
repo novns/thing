@@ -22,6 +22,13 @@ static log_output_t *log_outputs_add(log_type_t type, int level_from, int level_
 }
 
 
+void log_open_file(int level_from, int level_to, const char *path)
+{
+    log_output_t *out = log_outputs_add(LOG_TYPE_FILE, level_from, level_to);
+    out->file_path = path;
+}
+
+
 void log_open_stream(int level_from, int level_to, FILE *stream)
 {
     log_output_t *out = log_outputs_add(LOG_TYPE_STREAM, level_from, level_to);

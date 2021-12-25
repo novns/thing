@@ -21,6 +21,7 @@ enum log_level {
 #define LOG_RANGE_STDOUT LOG_INFO, LOG_DEBUG
 
 
+void log_open_file(int level_from, int level_to, const char *path);
 void log_open_stream(int level_from, int level_to, FILE *stream);
 
 void log_close();
