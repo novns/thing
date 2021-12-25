@@ -7,13 +7,14 @@ log_output_t *log_outputs = NULL;
 int log_outputs_count = 0;
 
 
-static log_output_t *log_outputs_add(int level_from, int level_to)
+static log_output_t *log_outputs_add(log_type_t type, int level_from, int level_to)
 {
     log_outputs = realloc(log_outputs, ++log_outputs_count * sizeof(log_output_t));
 
     log_output_t *out = log_outputs + log_outputs_count - 1;
     memset(out, 0, sizeof(log_output_t));
 
+    out->type = type;
     out->level_from = level_from;
     out->level_to = level_to;
 
@@ -23,7 +24,7 @@ static log_output_t *log_outputs_add(int level_from, int level_to)
 
 void log_open_stream(int level_from, int level_to, FILE *stream)
 {
-    log_output_t *out = log_outputs_add(level_from, level_to);
+    log_output_t *out = log_outputs_add(LOG_TYPE_STREAM, level_from, level_to);
     out->stream = stream;
 }
 
