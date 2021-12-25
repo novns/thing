@@ -28,6 +28,8 @@ static inline void log_vfprintf(FILE *stream,
         fprintf(stream, "  (%s)", strerror(err));
 
     putc('\n', stream);
+
+    fflush(stream);
 }
 
 
