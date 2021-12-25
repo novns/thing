@@ -57,18 +57,16 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
     extern int log_outputs_count;
 
     log_output_t *out = log_outputs;
-
     va_list args;
-    va_start(args, format);
 
     for (int i = 0; i < log_outputs_count; i++, out++) {
         if (level < out->level_from || level > out->level_to)
             continue;
 
+        va_start(args, format);
         log_vfprintf(out->stream, datetime, level, SOURCE_INFO_VARS, err, format, args);
+        va_end(args);
     }
-
-    va_end(args);
 
 
     // Reset errno
