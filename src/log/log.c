@@ -15,6 +15,21 @@ static const char *const log_levels[] = {
 };
 
 
+static inline bool reopen(log_output_t *out)
+{
+    if (out->stream_error)
+        return false;
+
+    if (out->stream || (out->stream = fopen(out->file_path, "a")))
+        return true;
+
+    out->stream_error = true;
+    log_error("Cannot open log file '%s'", out->file_path);
+
+    return false;
+}
+
+
 static inline void log_vfprintf(FILE *stream,
                                 const char *datetime, int level, SOURCE_INFO_ARGS, int err,
                                 const char *format, va_list args)
@@ -61,6 +76,9 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 
     for (int i = 0; i < log_outputs_count; i++, out++) {
         if (level < out->level_from || level > out->level_to)
+            continue;
+
+        if (out->type == LOG_TYPE_FILE && !reopen(out))
             continue;
 
         va_start(args, format);

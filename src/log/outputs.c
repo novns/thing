@@ -38,6 +38,12 @@ void log_open_stream(int level_from, int level_to, FILE *stream)
 
 void log_close()
 {
+    log_output_t *out = log_outputs;
+
+    for (int i = 0; i < log_outputs_count; i++, out++)
+        if (out->type == LOG_TYPE_FILE && out->stream)
+            fclose(out->stream);
+
     free(log_outputs);
 
     log_outputs = NULL;

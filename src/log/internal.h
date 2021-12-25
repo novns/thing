@@ -18,4 +18,5 @@ typedef struct log_output {
     const char *file_path;
 
     FILE *stream;
+    bool stream_error;
 } log_output_t;
