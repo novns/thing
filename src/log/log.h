@@ -11,6 +11,15 @@ enum log_level {
     LOG_DEBUG,
 };
 
+#define LOG_RANGE_FULL LOG_FATAL, LOG_DEBUG
+
+#define LOG_RANGE_ERROR LOG_FATAL, LOG_ERROR
+#define LOG_RANGE_INFO LOG_INFO, LOG_INFO
+#define LOG_RANGE_DEBUG LOG_TEST, LOG_DEBUG
+
+#define LOG_RANGE_STDERR LOG_FATAL, LOG_ERROR
+#define LOG_RANGE_STDOUT LOG_INFO, LOG_DEBUG
+
 
 void log_open_stream(int level_from, int level_to, FILE *stream);
 

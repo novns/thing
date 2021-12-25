@@ -3,8 +3,8 @@
 
 int main()
 {
-    log_open_stream(LOG_INFO, LOG_DEBUG, stdout);
-    log_open_stream(LOG_FATAL, LOG_ERROR, stderr);
+    log_open_stream(LOG_RANGE_STDOUT, stdout);
+    log_open_stream(LOG_RANGE_STDERR, stderr);
 
     log_info("Starting %s", PACKAGE_STRING);
 
