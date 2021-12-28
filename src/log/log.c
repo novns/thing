@@ -52,9 +52,10 @@ static inline void log_vfprintf(FILE *stream,
 
 void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 {
-    // Save errno
+    // Save and reset errno
 
     int err = errno;
+    errno = 0;
 
 
     // Date & time
@@ -85,9 +86,4 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
         log_vfprintf(out->stream, datetime, level, SOURCE_INFO_VARS, err, format, args);
         va_end(args);
     }
-
-
-    // Reset errno
-
-    errno = 0;
 }
