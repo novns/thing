@@ -16,6 +16,9 @@ typedef struct log_output {
     int level_to;
 
     const char *file_path;
+    char *file_base;
+    char *file_ext;
+    int file_yday;
 
     FILE *stream;
     bool stream_error;

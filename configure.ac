@@ -29,7 +29,7 @@ AC_C_INLINE
 
 AC_FUNC_REALLOC
 
-AC_CHECK_FUNCS([memset strerror])
+AC_CHECK_FUNCS([memset strdup strerror strrchr])
 
 
 # Configuration

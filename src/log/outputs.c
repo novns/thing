@@ -25,7 +25,17 @@ static log_output_t *log_outputs_add(log_type_t type, int level_from, int level_
 void log_open_file(int level_from, int level_to, const char *path)
 {
     log_output_t *out = log_outputs_add(LOG_TYPE_FILE, level_from, level_to);
+
     out->file_path = path;
+    out->file_base = strdup(path);
+
+    char *file_ext = strrchr(out->file_base, '/');
+    file_ext = strrchr(file_ext ? file_ext : out->file_base, '.');
+
+    if (file_ext) {
+        out->file_ext = strdup(file_ext);
+        *file_ext = '\0';
+    }
 }
 
 
@@ -40,9 +50,15 @@ void log_close()
 {
     log_output_t *out = log_outputs;
 
-    for (int i = 0; i < log_outputs_count; i++, out++)
-        if (out->type == LOG_TYPE_FILE && out->stream)
-            fclose(out->stream);
+    for (int i = 0; i < log_outputs_count; i++, out++) {
+        if (out->type == LOG_TYPE_FILE) {
+            if (out->stream)
+                fclose(out->stream);
+
+            free(out->file_base);
+            free(out->file_ext);
+        }
+    }
 
     free(log_outputs);
 
