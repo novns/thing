@@ -3,6 +3,7 @@
 #include "internal.h"
 
 #include <errno.h>
+#include <limits.h>
 #include <time.h>
 
 
@@ -15,16 +16,35 @@ static const char *const log_levels[] = {
 };
 
 
-static inline bool reopen(log_output_t *out)
+static inline bool reopen(log_output_t *out, struct tm *tm)
 {
     if (out->stream_error)
         return false;
 
-    if (out->stream || (out->stream = fopen(out->file_path, "a")))
+    if (out->stream) {
+        if (out->file_yday == tm->tm_yday)
+            return true;
+
+        fclose(out->stream);
+    }
+
+    char file_path[PATH_MAX];
+
+    snprintf(file_path, PATH_MAX, "%s.%04u-%02u-%02u%s",
+             out->file_base, tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
+             out->file_ext ? out->file_ext : "");
+
+    out->stream = fopen(file_path, "a");
+
+    if (out->stream) {
+        out->file_yday = tm->tm_yday;
+        log_debug("Open log file '%s'", file_path);
+
         return true;
+    }
 
     out->stream_error = true;
-    log_error("Cannot open log file '%s'", out->file_path);
+    log_error("Cannot open log file '%s'", file_path);
 
     return false;
 }
@@ -79,7 +99,7 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
         if (level < out->level_from || level > out->level_to)
             continue;
 
-        if (out->type == LOG_TYPE_FILE && !reopen(out))
+        if (out->type == LOG_TYPE_FILE && !reopen(out, tm))
             continue;
 
         va_start(args, format);
