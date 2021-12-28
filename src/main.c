@@ -15,8 +15,10 @@ int main()
 
 
 #define exit(...)
+#define log_close(...)
     log_fatal("Testing fatal message, exit() is disabled");
 #undef exit
+#undef log_close
 
     log_error("Testing error message");
     log_info("Testing info message");
