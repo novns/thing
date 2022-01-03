@@ -62,6 +62,8 @@ static inline bool reopen(log_output_t *out, struct tm *tm)
 
 void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 {
+    // Save and reset errno
+
     int err = errno;
     errno = 0;
 
@@ -80,19 +82,36 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
     extern log_output_t *log_outputs;
     extern int log_outputs_count;
 
+    va_list args;
     log_output_t *out = log_outputs;
 
     for (int i = 0; i < log_outputs_count; i++, out++) {
         if (level < out->level_from || level > out->level_to)
             continue;
 
-        if (out->type == LOG_TYPE_FILE && !reopen(out, tm))
+        switch (out->type) {
+
+        case LOG_TYPE_FILE:
+            if (!reopen(out, tm))
+                continue;
+
+            break;
+
+        case LOG_TYPE_SYSLOG:
+            va_start(args, format);
+            syslog_vprintf(SOURCE_INFO_VARS, level, err, format, args);
+            va_end(args);
             continue;
+
+            break;
+
+        default:
+            break;
+        }
 
         fprintf(out->stream, "%s  %s  " SOURCE_INFO_FORMAT,
                 datetime, log_levels[level], SOURCE_INFO_VARS);
 
-        va_list args;
         va_start(args, format);
         vfprintf(out->stream, format, args);
         va_end(args);

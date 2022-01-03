@@ -28,3 +28,5 @@ typedef struct log_output {
 
 void syslog_open(const char *ident, int facility);
 void syslog_close();
+
+void syslog_vprintf(SOURCE_INFO_ARGS, int level, int err, const char *format, va_list args);
