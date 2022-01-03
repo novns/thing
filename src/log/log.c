@@ -18,6 +18,8 @@ static const char *const log_levels[] = {
 
 static inline bool reopen(log_output_t *out, struct tm *tm)
 {
+    // File status
+
     if (out->stream_error)
         return false;
 
@@ -28,11 +30,15 @@ static inline bool reopen(log_output_t *out, struct tm *tm)
         fclose(out->stream);
     }
 
+    // File name
+
     char file_path[PATH_MAX];
 
     snprintf(file_path, PATH_MAX, "%s.%04u-%02u-%02u%s",
              out->file_base, tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
              out->file_ext ? out->file_ext : "");
+
+    // Open file
 
     out->stream = fopen(file_path, "a");
 
@@ -43,6 +49,8 @@ static inline bool reopen(log_output_t *out, struct tm *tm)
         return true;
     }
 
+    // Error
+
     out->stream_error = true;
     log_error("Cannot open log file '%s'", file_path);
 
@@ -50,30 +58,10 @@ static inline bool reopen(log_output_t *out, struct tm *tm)
 }
 
 
-static inline void log_vfprintf(FILE *stream,
-                                const char *datetime, int level, SOURCE_INFO_ARGS, int err,
-                                const char *format, va_list args)
-{
-    fprintf(stream, "%s  %s  " SOURCE_INFO_FORMAT,
-            datetime, log_levels[level], SOURCE_INFO_VARS);
-
-    vfprintf(stream, format, args);
-
-    if (err)
-        fprintf(stream, "  (%s)", strerror(err));
-
-    putc('\n', stream);
-
-    fflush(stream);
-}
-
-
 #define DATETIME_BUF_SIZE 20
 
 void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 {
-    // Save and reset errno
-
     int err = errno;
     errno = 0;
 
@@ -93,7 +81,6 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
     extern int log_outputs_count;
 
     log_output_t *out = log_outputs;
-    va_list args;
 
     for (int i = 0; i < log_outputs_count; i++, out++) {
         if (level < out->level_from || level > out->level_to)
@@ -102,8 +89,19 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
         if (out->type == LOG_TYPE_FILE && !reopen(out, tm))
             continue;
 
+        fprintf(out->stream, "%s  %s  " SOURCE_INFO_FORMAT,
+                datetime, log_levels[level], SOURCE_INFO_VARS);
+
+        va_list args;
         va_start(args, format);
-        log_vfprintf(out->stream, datetime, level, SOURCE_INFO_VARS, err, format, args);
+        vfprintf(out->stream, format, args);
         va_end(args);
+
+        if (err)
+            fprintf(out->stream, "  (%s)", strerror(err));
+
+        putc('\n', out->stream);
+
+        fflush(out->stream);
     }
 }
