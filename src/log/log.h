@@ -19,10 +19,19 @@ enum log_level {
 
 #define LOG_RANGE_STDERR LOG_FATAL, LOG_ERROR
 #define LOG_RANGE_STDOUT LOG_INFO, LOG_DEBUG
+#define LOG_RANGE_SYSLOG LOG_FATAL, LOG_INFO
 
 
 void log_open_file(int level_from, int level_to, const char *path);
 void log_open_stream(int level_from, int level_to, FILE *stream);
+
+
+#define SYSLOG_USER 1
+#define SYSLOG_DAEMON 3
+#define SYSLOG_AUTH 4
+
+void log_open_syslog(int level_from, int level_to, const char *ident, int facility);
+
 
 void log_close();
 

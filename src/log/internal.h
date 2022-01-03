@@ -4,8 +4,9 @@
 
 
 typedef enum log_type {
-    LOG_TYPE_STREAM,
     LOG_TYPE_FILE,
+    LOG_TYPE_STREAM,
+    LOG_TYPE_SYSLOG,
 } log_type_t;
 
 
@@ -23,3 +24,7 @@ typedef struct log_output {
     FILE *stream;
     bool stream_error;
 } log_output_t;
+
+
+void syslog_open(const char *ident, int facility);
+void syslog_close();

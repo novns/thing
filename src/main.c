@@ -11,8 +11,10 @@ int main()
     log_open_file(LOG_RANGE_INFO, "/tmp/" PACKAGE "-info.log");
     log_open_file(LOG_RANGE_DEBUG, "/tmp/" PACKAGE "-debug.log");
 
-    log_info("Starting %s", PACKAGE_STRING);
+    log_open_syslog(LOG_RANGE_SYSLOG, PACKAGE, SYSLOG_USER);
 
+
+    log_info("Starting %s", PACKAGE_STRING);
 
 #define exit(...)
 #define log_close(...)

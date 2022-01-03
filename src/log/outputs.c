@@ -46,17 +46,35 @@ void log_open_stream(int level_from, int level_to, FILE *stream)
 }
 
 
+void log_open_syslog(int level_from, int level_to, const char *ident, int facility)
+{
+    log_outputs_add(LOG_TYPE_SYSLOG, level_from, level_to);
+    syslog_open(ident, facility);
+}
+
+
 void log_close()
 {
     log_output_t *out = log_outputs;
 
     for (int i = 0; i < log_outputs_count; i++, out++) {
-        if (out->type == LOG_TYPE_FILE) {
+        switch (out->type) {
+
+        case LOG_TYPE_FILE:
             if (out->stream)
                 fclose(out->stream);
 
             free(out->file_base);
             free(out->file_ext);
+
+            break;
+
+        case LOG_TYPE_SYSLOG:
+            syslog_close();
+            break;
+
+        default:
+            break;
         }
     }
 

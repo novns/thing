@@ -19,6 +19,8 @@ AC_PROG_MAKE_SET
 
 AC_HEADER_STDBOOL
 
+AC_CHECK_HEADERS([syslog.h])
+
 
 # Checks for typedefs, structures, and compiler characteristics
 
