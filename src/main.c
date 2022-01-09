@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include <time.h>
+
 
 int main()
 {
@@ -26,6 +28,16 @@ int main()
     log_info("Testing info message");
     log_test("Testing test message");
     log_debug("Testing debug message");
+
+#ifdef ENABLE_DEBUG
+    srand(time(NULL));
+
+    unsigned char dump_test[128];
+    for (int i = 0; i < 128; i++)
+        dump_test[i] = rand() % 256;
+
+    log_dump(dump_test, 128);
+#endif
 
 
     log_close();
