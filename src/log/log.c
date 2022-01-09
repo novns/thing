@@ -16,6 +16,22 @@ static const char *const log_levels[] = {
 };
 
 
+static inline struct tm *gmtime_cache()
+{
+    static struct tm tm;
+    static time_t time_cache = 0;
+
+    time_t time_stamp = time(NULL);
+
+    if (time_stamp != time_cache) {
+        time_cache = time_stamp;
+        gmtime_r(&time_stamp, &tm);
+    }
+
+    return &tm;
+}
+
+
 static inline bool reopen(log_output_t *out, struct tm *tm)
 {
     // File status
@@ -69,8 +85,7 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 
     // Date & time
 
-    time_t timestamp = time(NULL);
-    struct tm *tm = gmtime(&timestamp);
+    struct tm *tm = gmtime_cache();
 
     char datetime[DATETIME_BUF_SIZE];
     strftime(datetime, DATETIME_BUF_SIZE, "%F %T", tm);
