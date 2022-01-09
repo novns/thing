@@ -9,16 +9,17 @@ enum log_level {
     LOG_INFO,
     LOG_TEST,
     LOG_DEBUG,
+    LOG_DUMP,
 };
 
-#define LOG_RANGE_FULL LOG_FATAL, LOG_DEBUG
+#define LOG_RANGE_FULL LOG_FATAL, LOG_DUMP
 
 #define LOG_RANGE_ERROR LOG_FATAL, LOG_ERROR
 #define LOG_RANGE_INFO LOG_INFO, LOG_INFO
-#define LOG_RANGE_DEBUG LOG_TEST, LOG_DEBUG
+#define LOG_RANGE_DEBUG LOG_TEST, LOG_DUMP
 
 #define LOG_RANGE_STDERR LOG_FATAL, LOG_ERROR
-#define LOG_RANGE_STDOUT LOG_INFO, LOG_DEBUG
+#define LOG_RANGE_STDOUT LOG_INFO, LOG_DUMP
 #define LOG_RANGE_SYSLOG LOG_FATAL, LOG_INFO
 
 
@@ -65,8 +66,24 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...);
 
 #define log_test(...) log_printf(LOG_TEST, SOURCE_INFO_VALUES, __VA_ARGS__)
 
+
 #ifdef ENABLE_DEBUG
 #define log_debug(...) log_printf(LOG_DEBUG, SOURCE_INFO_VALUES, __VA_ARGS__)
 #else
 #define log_debug(...) ((void)0)
+#endif
+
+
+#ifdef ENABLE_DEBUG
+
+void log_dump_data(const unsigned char *data, size_t size);
+
+#define log_dump(data, size)                                                           \
+    {                                                                                  \
+        log_printf(LOG_DUMP, SOURCE_INFO_VALUES, "`%s`  %zu bytes:", (#data), (size)); \
+        log_dump_data((const unsigned char *)(data), (size));                          \
+    }
+
+#else
+#define log_dump(...) ((void)0)
 #endif

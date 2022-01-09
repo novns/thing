@@ -26,6 +26,8 @@ AC_CHECK_HEADERS([syslog.h])
 
 AC_C_INLINE
 
+AC_TYPE_SIZE_T
+
 
 # Checks for library functions
 

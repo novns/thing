@@ -13,6 +13,7 @@ static const char *const log_levels[] = {
     "INFO",
     "TEST",
     "DEBUG",
+    "DUMP",
 };
 
 

@@ -39,3 +39,9 @@ void syslog_vprintf(SOURCE_INFO_ARGS, int level, int err, const char *format, va
            SOURCE_INFO_VARS, buf);
     errno = 0;
 }
+
+
+void syslog_dump(size_t offset, const char *hex_buf)
+{
+    syslog(7, "%8zu    %s", offset, hex_buf);
+}

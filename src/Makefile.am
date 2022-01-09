@@ -5,8 +5,9 @@ bin_PROGRAMS = thing-test
 
 
 LOG_SOURCES = \
-	log/internal.h \
-	log/log.c log/log.h \
+	log/internal.h log/log.h \
+	log/dump.c \
+	log/log.c \
 	log/outputs.c \
 	log/syslog.c
 
