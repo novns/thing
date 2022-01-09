@@ -67,7 +67,6 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
     int err = errno;
     errno = 0;
 
-
     // Date & time
 
     time_t timestamp = time(NULL);
@@ -76,8 +75,7 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
     char datetime[DATETIME_BUF_SIZE];
     strftime(datetime, DATETIME_BUF_SIZE, "%F %T", tm);
 
-
-    // Message
+    // Outputs
 
     extern log_output_t *log_outputs;
     extern int log_outputs_count;
@@ -88,6 +86,8 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
     for (int i = 0; i < log_outputs_count; i++, out++) {
         if (level < out->level_from || level > out->level_to)
             continue;
+
+        // Output type
 
         switch (out->type) {
 
@@ -108,6 +108,8 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
         default:
             break;
         }
+
+        // Message
 
         fprintf(out->stream, "%s  %s  " SOURCE_INFO_FORMAT,
                 datetime, log_levels[level], SOURCE_INFO_VARS);
