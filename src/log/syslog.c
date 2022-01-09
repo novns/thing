@@ -10,6 +10,7 @@ static const int syslog_levels[] = {
     6, // LOG_INFO -> info
     6, // LOG_TEST -> info
     7, // LOG_DEBUG -> debug
+    7, // LOG_DUMP -> debug
 };
 
 
