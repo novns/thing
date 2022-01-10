@@ -17,22 +17,6 @@ static const char *const log_levels[] = {
 };
 
 
-static inline struct tm *gmtime_cache()
-{
-    static struct tm tm;
-    static time_t time_cache = 0;
-
-    time_t time_stamp = time(NULL);
-
-    if (time_stamp != time_cache) {
-        time_cache = time_stamp;
-        gmtime_r(&time_stamp, &tm);
-    }
-
-    return &tm;
-}
-
-
 static inline bool reopen(log_output_t *out, struct tm *tm)
 {
     // File status
@@ -88,10 +72,19 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 
     // Date & time
 
-    struct tm *tm = gmtime_cache();
+    static time_t time_cache = 0;
 
-    char datetime[DATETIME_BUF_SIZE];
-    strftime(datetime, DATETIME_BUF_SIZE, "%F %T", tm);
+    static struct tm tm = { 0 };
+    static char datetime[DATETIME_BUF_SIZE] = "";
+
+    time_t time_stamp = time(NULL);
+
+    if (time_stamp != time_cache) {
+        time_cache = time_stamp;
+
+        gmtime_r(&time_stamp, &tm);
+        strftime(datetime, DATETIME_BUF_SIZE, "%F %T", &tm);
+    }
 
     // Outputs
 
@@ -110,7 +103,7 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
         switch (out->type) {
 
         case LOG_TYPE_FILE:
-            if (!reopen(out, tm))
+            if (!reopen(out, &tm))
                 continue;
 
             break;
