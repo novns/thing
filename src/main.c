@@ -37,6 +37,7 @@ int main()
         dump_test[i] = rand() % 256;
 
     log_dump(dump_test, 128);
+    log_dump(dump_test, 32);
 #endif
 
 

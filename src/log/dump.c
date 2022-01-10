@@ -61,6 +61,8 @@ void log_dump_data(const unsigned char *data, size_t size)
 
             fprintf(out->stream, "%8zu    %s\n", offset, hex_buf);
         }
+
+        out->nl_last_level = LOG_NL_FORCE;
     }
 }
 

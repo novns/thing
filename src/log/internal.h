@@ -3,6 +3,10 @@
 #include "main.h"
 
 
+#define LOG_NL_FORCE -2
+#define LOG_NL_SKIP -1
+
+
 typedef enum log_type {
     LOG_TYPE_FILE,
     LOG_TYPE_STREAM,
@@ -19,10 +23,13 @@ typedef struct log_output {
     const char *file_path;
     char *file_base;
     char *file_ext;
+
     int file_yday;
 
     FILE *stream;
     bool stream_error;
+
+    int nl_last_level;
 } log_output_t;
 
 

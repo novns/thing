@@ -61,6 +61,8 @@ static inline bool reopen(log_output_t *out, struct tm *tm)
 
     if (out->stream) {
         out->file_yday = tm->tm_yday;
+        out->nl_last_level = ftello(out->stream) ? LOG_NL_FORCE : LOG_NL_SKIP;
+
         log_debug("Open log file '%s'", file_path);
 
         return true;
@@ -123,6 +125,15 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 
         default:
             break;
+        }
+
+        // Additional new line
+
+        if (level != out->nl_last_level) {
+            if (out->nl_last_level != LOG_NL_SKIP)
+                putc('\n', out->stream);
+
+            out->nl_last_level = level;
         }
 
         // Message

@@ -17,6 +17,7 @@ static log_output_t *log_outputs_add(log_type_t type, int level_from, int level_
     out->type = type;
     out->level_from = level_from;
     out->level_to = level_to;
+    out->nl_last_level = LOG_NL_SKIP;
 
     return out;
 }
