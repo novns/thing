@@ -83,7 +83,8 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
         time_cache = time_stamp;
 
         gmtime_r(&time_stamp, &tm);
-        strftime(datetime, DATETIME_BUF_SIZE, "%F %T", &tm);
+        sprintf(datetime, "%04u-%02u-%02u %02u:%02u:%02u",
+                tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
     }
 
     // Outputs
