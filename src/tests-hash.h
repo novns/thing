@@ -17,15 +17,16 @@ struct test {
 
     enum {
         TESTS_ALL,
+        TESTS_TEST
     } value;
 };
 
-#define TOTAL_KEYWORDS 1
+#define TOTAL_KEYWORDS 2
 #define MIN_WORD_LENGTH 3
-#define MAX_WORD_LENGTH 3
-#define MIN_HASH_VALUE 0
-#define MAX_HASH_VALUE 0
-/* maximum key range = 1, duplicates = 0 */
+#define MAX_WORD_LENGTH 4
+#define MIN_HASH_VALUE 3
+#define MAX_HASH_VALUE 4
+/* maximum key range = 2, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -38,25 +39,33 @@ inline
     static unsigned int
     test(register const char *str, register size_t len)
 {
-    return 0;
+    return len;
 }
 
 const struct test *
 in_tests(register const char *str, register size_t len)
 {
     static const struct test wordlist[] = {
-#line 20 "tests-hash.gperf"
-        { "all", TESTS_ALL }
+#line 21 "tests-hash.gperf"
+        { "all", TESTS_ALL },
+#line 22 "tests-hash.gperf"
+        { "test", TESTS_TEST }
     };
 
     if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH) {
         register unsigned int key = test(str, len);
 
-        if (key <= MAX_HASH_VALUE) {
+        if (key <= MAX_HASH_VALUE && key >= MIN_HASH_VALUE) {
             register const struct test *resword;
 
-            resword = &wordlist[0];
-            goto compare;
+            switch (key - 3) {
+            case 0:
+                resword = &wordlist[0];
+                goto compare;
+            case 1:
+                resword = &wordlist[1];
+                goto compare;
+            }
             return 0;
         compare : {
             register const char *s = resword->name;
@@ -68,7 +77,7 @@ in_tests(register const char *str, register size_t len)
     }
     return 0;
 }
-#line 21 "tests-hash.gperf"
+#line 23 "tests-hash.gperf"
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

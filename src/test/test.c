@@ -68,3 +68,30 @@ void test_strcmp(SOURCE_INFO_ARGS,
                "Test `%s` is equal to `%s`: %s", expression_1, expression_2,
                result ? RESULT_PASS : RESULT_FAIL);
 }
+
+
+void tests_test()
+{
+    log_info("Testing tests and assertions");
+
+
+    log_info("Testing boolean assertions, exit() is disabled");
+
+    test_assert_exit = false;
+
+    ASSERT(true);
+    ASSERT(!false);
+
+    test_assert_exit = true;
+
+
+    log_info("Testing boolean test");
+
+    TEST(true);
+    TEST(!false);
+
+
+    log_info("Testing strcmp test");
+
+    TEST_STRCMP("String\0001", "String\0002");
+}

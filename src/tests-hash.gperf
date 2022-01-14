@@ -13,11 +13,13 @@ struct test {
 
     enum {
         TESTS_ALL,
+        TESTS_TEST
     } value;
 };
 
 %%
 all, TESTS_ALL
+test, TESTS_TEST
 %%
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

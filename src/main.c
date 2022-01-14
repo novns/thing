@@ -5,6 +5,9 @@
 #include <time.h>
 
 
+void tests_test();
+
+
 int main(int argc, char const *argv[])
 {
     log_open_stream(LOG_RANGE_FULL, stdout);
@@ -35,6 +38,11 @@ int main(int argc, char const *argv[])
         switch (test->value) {
 
         case TESTS_ALL:
+            tests_test();
+            break;
+
+        case TESTS_TEST:
+            tests_test();
             break;
         }
     }
