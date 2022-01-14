@@ -7,8 +7,7 @@
 
 int main(int argc, char const *argv[])
 {
-    log_open_stream(LOG_RANGE_STDOUT, stdout);
-    log_open_stream(LOG_RANGE_STDERR, stderr);
+    log_open_stream(LOG_RANGE_FULL, stdout);
 
     log_open_file(LOG_RANGE_FULL, "/tmp/" PACKAGE ".log");
     log_open_file(LOG_RANGE_ERROR, "/tmp/" PACKAGE "-error.log");
