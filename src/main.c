@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
 
 
     if (argc < 2)
-        log_fatal("Usage: %s [all]", argv[0]);
+        log_fatal("Usage: %s [all] [test]", argv[0]);
 
 
     for (int i = 1; i < argc; i++) {
