@@ -65,6 +65,9 @@ static inline bool reopen(log_output_t *out, struct tm *tm)
 
 void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...)
 {
+    if (level < 0 || level > LOG_DUMP)
+        return;
+
     // Save and reset errno
 
     int err = errno;
