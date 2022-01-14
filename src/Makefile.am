@@ -5,15 +5,20 @@ bin_PROGRAMS = thing-test
 
 
 LOG_SOURCES = \
-	log/internal.h log/log.h \
 	log/dump.c \
-	log/log.c \
+	log/internal.h \
+	log/log.c log/log.h \
 	log/outputs.c \
 	log/syslog.c
 
 
+TEST_SOURCES = \
+	test/test.c test/test.h
+
+
 thing_test_SOURCES = \
 	$(LOG_SOURCES) \
+	$(TEST_SOURCES) \
 	main.c main.h \
 	tests-hash.h
 
