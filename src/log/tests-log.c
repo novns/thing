@@ -2,12 +2,22 @@
 
 #include "test/test.h"
 
+#include <fcntl.h>
 #include <time.h>
+#include <unistd.h>
 
 
 void tests_log()
 {
-    log_info("Testing log messages");
+    log_info("Testing log messages, stdout is disabled");
+
+
+    fflush(stdout);
+
+    int original_stdout = dup(STDOUT_FILENO);
+    int empty_stdout = open("/dev/null", O_WRONLY);
+    dup2(empty_stdout, STDOUT_FILENO);
+    close(empty_stdout);
 
 
 #define exit(...)
@@ -32,4 +42,10 @@ void tests_log()
     log_dump(dump_test, 128);
     log_dump(dump_test, 32);
 #endif
+
+
+    fflush(stdout);
+
+    dup2(original_stdout, STDOUT_FILENO);
+    close(original_stdout);
 }

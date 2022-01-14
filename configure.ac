@@ -21,7 +21,7 @@ AM_MISSING_PROG([GPERF], [gperf])
 
 AC_HEADER_STDBOOL
 
-AC_CHECK_HEADERS([syslog.h])
+AC_CHECK_HEADERS([fcntl.h syslog.h unistd.h])
 
 
 # Checks for typedefs, structures, and compiler characteristics
@@ -36,7 +36,7 @@ AC_TYPE_SIZE_T
 AC_FUNC_FSEEKO
 AC_FUNC_REALLOC
 
-AC_CHECK_FUNCS([memset strdup strerror strrchr])
+AC_CHECK_FUNCS([dup2 memset strdup strerror strrchr])
 
 
 # Configuration
