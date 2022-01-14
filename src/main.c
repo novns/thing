@@ -3,9 +3,8 @@
 #include "test/test.h"
 #include "tests-hash.h"
 
-#include <time.h>
 
-
+void tests_log();
 void tests_test();
 
 
@@ -23,9 +22,8 @@ int main(int argc, char const *argv[])
 
     log_info("Starting %s", PACKAGE_STRING);
 
-
     if (argc < 2)
-        log_fatal("Usage: %s [all] [test]", argv[0]);
+        log_fatal("Usage: %s [all] [log] [test]", argv[0]);
 
 
     for (int i = 1; i < argc; i++) {
@@ -40,6 +38,11 @@ int main(int argc, char const *argv[])
 
         case TESTS_ALL:
             tests_test();
+            tests_log();
+            break;
+
+        case TESTS_LOG:
+            tests_log();
             break;
 
         case TESTS_TEST:
@@ -50,29 +53,6 @@ int main(int argc, char const *argv[])
 
 
     tests_summary();
-
-
-#define exit(...)
-#define log_close(...)
-    log_fatal("Testing fatal message, exit() is disabled");
-#undef exit
-#undef log_close
-
-    log_error("Testing error message");
-    log_info("Testing info message");
-    log_test("Testing test message");
-    log_debug("Testing debug message");
-
-#ifdef ENABLE_DEBUG
-    srand(time(NULL));
-
-    unsigned char dump_test[128];
-    for (int i = 0; i < 128; i++)
-        dump_test[i] = rand() % 256;
-
-    log_dump(dump_test, 128);
-    log_dump(dump_test, 32);
-#endif
 
 
     log_close();

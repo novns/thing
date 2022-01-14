@@ -9,7 +9,8 @@ LOG_SOURCES = \
 	log/internal.h \
 	log/log.c log/log.h \
 	log/outputs.c \
-	log/syslog.c
+	log/syslog.c \
+	log/tests-log.c
 
 
 TEST_SOURCES = \
