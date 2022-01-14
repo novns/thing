@@ -1,0 +1,24 @@
+%{
+#pragma once
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
+%}
+
+struct test {
+    char *name;
+
+    enum {
+        TESTS_ALL,
+    } value;
+};
+
+%%
+all, TESTS_ALL
+%%
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif

@@ -14,7 +14,15 @@ LOG_SOURCES = \
 
 thing_test_SOURCES = \
 	$(LOG_SOURCES) \
-	main.c main.h
+	main.c main.h \
+	tests-hash.h
+
+
+BUILT_SOURCES = tests-hash.h
+EXTRA_DIST = tests-hash.gperf
+
+tests-hash.h: tests-hash.gperf
+	$(GPERF) -C -S 1 -t -H test -N in_tests $< | clang-format > $@
 
 
 check: thing-test

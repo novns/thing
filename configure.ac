@@ -11,6 +11,8 @@ AM_INIT_AUTOMAKE([foreign no-dist subdir-objects -Wall -Werror])
 AC_PROG_CC
 AC_PROG_MAKE_SET
 
+AM_MISSING_PROG([GPERF], [gperf])
+
 
 # Checks for libraries
 
