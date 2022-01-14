@@ -25,5 +25,5 @@ tests-hash.h: tests-hash.gperf
 	$(GPERF) -C -S 1 -t -H test -N in_tests $< | clang-format > $@
 
 
-check: thing-test
-	./$<
+check-local: thing-test
+	./$< all

@@ -1,9 +1,11 @@
 #include "main.h"
 
+#include "tests-hash.h"
+
 #include <time.h>
 
 
-int main()
+int main(int argc, char const *argv[])
 {
     log_open_stream(LOG_RANGE_STDOUT, stdout);
     log_open_stream(LOG_RANGE_STDERR, stderr);
@@ -17,6 +19,27 @@ int main()
 
 
     log_info("Starting %s", PACKAGE_STRING);
+
+
+    if (argc < 2)
+        log_fatal("Usage: %s [all]", argv[0]);
+
+
+    for (int i = 1; i < argc; i++) {
+        const struct test *test = in_tests(argv[i], strlen(argv[i]));
+
+        if (!test) {
+            log_error("Unknown test set '%s'", argv[i]);
+            continue;
+        }
+
+        switch (test->value) {
+
+        case TESTS_ALL:
+            break;
+        }
+    }
+
 
 #define exit(...)
 #define log_close(...)
