@@ -23,3 +23,6 @@ void test_strcmp(SOURCE_INFO_ARGS,
 
 #define TEST_STRCMP(value_1, value_2) \
     test_strcmp(SOURCE_INFO_VALUES, (#value_1), (value_1), (#value_2), (value_2))
+
+
+void tests_summary();

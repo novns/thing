@@ -95,3 +95,10 @@ void tests_test()
 
     TEST_STRCMP("String\0001", "String\0002");
 }
+
+
+void tests_summary()
+{
+    log_info("%u tests: %u passed, %u failed",
+             tests_passed + tests_failed, tests_passed, tests_failed);
+}

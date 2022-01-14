@@ -1,5 +1,6 @@
 #include "main.h"
 
+#include "test/test.h"
 #include "tests-hash.h"
 
 #include <time.h>
@@ -46,6 +47,9 @@ int main(int argc, char const *argv[])
             break;
         }
     }
+
+
+    tests_summary();
 
 
 #define exit(...)
