@@ -36,7 +36,7 @@ AC_TYPE_SIZE_T
 AC_FUNC_FSEEKO
 AC_FUNC_REALLOC
 
-AC_CHECK_FUNCS([dup2 memset strdup strerror strrchr])
+AC_CHECK_FUNCS([atexit dup2 memset strdup strerror strrchr])
 
 
 # Configuration

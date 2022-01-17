@@ -56,7 +56,6 @@ void log_printf(int level, SOURCE_INFO_ARGS, const char *format, ...);
 #define log_fatal(...)                                          \
     {                                                           \
         log_printf(LOG_FATAL, SOURCE_INFO_VALUES, __VA_ARGS__); \
-        log_close();                                            \
         exit(EXIT_FAILURE);                                     \
     }
 

@@ -10,6 +10,8 @@ void tests_test();
 
 int main(int argc, char const *argv[])
 {
+    atexit(log_close);
+
     log_open_stream(LOG_RANGE_FULL, stdout);
 
     log_open_file(LOG_RANGE_FULL, "/tmp/" PACKAGE ".log");
@@ -53,9 +55,6 @@ int main(int argc, char const *argv[])
 
 
     tests_summary();
-
-
-    log_close();
 
     return EXIT_SUCCESS;
 }
