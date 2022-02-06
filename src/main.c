@@ -24,9 +24,7 @@ int main(int argc, char const *argv[])
 
     log_info("Starting %s", PACKAGE_STRING);
 
-    if (argc < 2)
-        log_fatal("Usage: %s [all] [log] [test]", argv[0]);
-
+    bool test_args = false;
 
     for (int i = 1; i < argc; i++) {
         const struct test *test = in_tests(argv[i], strlen(argv[i]));
@@ -35,6 +33,8 @@ int main(int argc, char const *argv[])
             log_error("Unknown test set '%s'", argv[i]);
             continue;
         }
+
+        test_args = test_args || test->value;
 
         switch (test->value) {
 
@@ -56,6 +56,9 @@ int main(int argc, char const *argv[])
             break;
         }
     }
+
+    if (!test_args)
+        log_fatal("Usage: %s [-v]  [all] [test]  [log]", argv[0]);
 
 
     tests_summary();
