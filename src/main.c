@@ -38,6 +38,10 @@ int main(int argc, char const *argv[])
 
         switch (test->value) {
 
+        case ARG_VERBOSE:
+            test_silent_pass = !test_silent_pass;
+            break;
+
         case TESTS_ALL:
             tests_test();
             tests_log();

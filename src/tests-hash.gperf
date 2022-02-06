@@ -12,17 +12,22 @@ struct test {
     char *name;
 
     enum {
+        ARG_VERBOSE,
+
         TESTS_ALL,
         TESTS_TEST,
+
         TESTS_LOG,
     } value;
 };
 
 %%
+-v, ARG_VERBOSE
 all, TESTS_ALL
 test, TESTS_TEST
 log, TESTS_LOG
 %%
+
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif

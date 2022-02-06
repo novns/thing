@@ -43,18 +43,21 @@ struct test {
     char *name;
 
     enum {
+        ARG_VERBOSE,
+
         TESTS_ALL,
         TESTS_TEST,
+
         TESTS_LOG,
     } value;
 };
 
-#define TOTAL_KEYWORDS 3
-#define MIN_WORD_LENGTH 3
+#define TOTAL_KEYWORDS 4
+#define MIN_WORD_LENGTH 2
 #define MAX_WORD_LENGTH 4
-#define MIN_HASH_VALUE 3
-#define MAX_HASH_VALUE 5
-/* maximum key range = 3, duplicates = 0 */
+#define MIN_HASH_VALUE 2
+#define MAX_HASH_VALUE 8
+/* maximum key range = 7, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -67,32 +70,32 @@ inline
     test(register const char *str, register size_t len)
 {
     static const unsigned char asso_values[] = {
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 2, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 0, 6,
-        6, 6, 6, 6, 6, 6, 0, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 0, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 5, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 0, 9,
+        9, 9, 9, 9, 9, 9, 0, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+        9, 9, 9, 9, 9, 9
     };
     return len + asso_values[(unsigned char)str[0]];
 }
@@ -101,11 +104,13 @@ const struct test *
 in_tests(register const char *str, register size_t len)
 {
     static const struct test wordlist[] = {
-#line 24 "tests-hash.gperf"
+#line 25 "tests-hash.gperf"
+        { "-v", ARG_VERBOSE },
+#line 28 "tests-hash.gperf"
         { "log", TESTS_LOG },
-#line 23 "tests-hash.gperf"
+#line 27 "tests-hash.gperf"
         { "test", TESTS_TEST },
-#line 22 "tests-hash.gperf"
+#line 26 "tests-hash.gperf"
         { "all", TESTS_ALL }
     };
 
@@ -115,7 +120,7 @@ in_tests(register const char *str, register size_t len)
         if (key <= MAX_HASH_VALUE && key >= MIN_HASH_VALUE) {
             register const struct test *resword;
 
-            switch (key - 3) {
+            switch (key - 2) {
             case 0:
                 resword = &wordlist[0];
                 goto compare;
@@ -124,6 +129,9 @@ in_tests(register const char *str, register size_t len)
                 goto compare;
             case 2:
                 resword = &wordlist[2];
+                goto compare;
+            case 6:
+                resword = &wordlist[3];
                 goto compare;
             }
             return 0;
@@ -137,7 +145,8 @@ in_tests(register const char *str, register size_t len)
     }
     return 0;
 }
-#line 25 "tests-hash.gperf"
+#line 29 "tests-hash.gperf"
+
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
