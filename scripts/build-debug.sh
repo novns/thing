@@ -7,6 +7,6 @@ cd "$(dirname "$0")/.."
 
 autoreconf -i
 
-CFLAGS="-O2 -pipe -ggdb" ./configure --enable-debug
+CFLAGS="-O2 -pipe -ggdb -fanalyzer" ./configure --enable-debug
 
 make
