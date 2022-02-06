@@ -23,6 +23,11 @@ static log_output_t *log_outputs_add(log_type_t type, int level_from, int level_
 }
 
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
+#endif
+
 void log_open_file(int level_from, int level_to, const char *path)
 {
     log_output_t *out = log_outputs_add(LOG_TYPE_FILE, level_from, level_to);
@@ -46,6 +51,10 @@ void log_open_file(int level_from, int level_to, const char *path)
 
     out->stream_error = false;
 }
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 
 void log_open_stream(int level_from, int level_to, FILE *stream)
