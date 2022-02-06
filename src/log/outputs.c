@@ -27,16 +27,24 @@ void log_open_file(int level_from, int level_to, const char *path)
 {
     log_output_t *out = log_outputs_add(LOG_TYPE_FILE, level_from, level_to);
 
+    out->stream_error = true;
+
     out->file_path = path;
-    out->file_base = strdup(path);
+
+    if (!(out->file_base = strdup(path)))
+        log_fatal(ERROR_STRDUP);
 
     char *file_ext = strrchr(out->file_base, '/');
     file_ext = strrchr(file_ext ? file_ext : out->file_base, '.');
 
     if (file_ext) {
-        out->file_ext = strdup(file_ext);
+        if (!(out->file_ext = strdup(file_ext)))
+            log_fatal(ERROR_STRDUP);
+
         *file_ext = '\0';
     }
+
+    out->stream_error = false;
 }
 
 

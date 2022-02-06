@@ -3,6 +3,9 @@
 #include "main.h"
 
 
+#define ERROR_STRDUP "Cannot duplicate a string"
+
+
 enum log_level {
     LOG_FATAL,
     LOG_ERROR,
