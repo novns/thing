@@ -17,6 +17,9 @@ struct test {
         TESTS_ALL,
         TESTS_TEST,
 
+        TESTS_DATA,
+        TESTS_DATA_DICT,
+
         TESTS_LOG,
     } value;
 };
@@ -25,6 +28,8 @@ struct test {
 -v, ARG_VERBOSE
 all, TESTS_ALL
 test, TESTS_TEST
+data, TESTS_DATA
+data-dict, TESTS_DATA_DICT
 log, TESTS_LOG
 %%
 

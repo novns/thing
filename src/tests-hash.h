@@ -48,16 +48,19 @@ struct test {
         TESTS_ALL,
         TESTS_TEST,
 
+        TESTS_DATA,
+        TESTS_DATA_DICT,
+
         TESTS_LOG,
     } value;
 };
 
-#define TOTAL_KEYWORDS 4
+#define TOTAL_KEYWORDS 6
 #define MIN_WORD_LENGTH 2
-#define MAX_WORD_LENGTH 4
+#define MAX_WORD_LENGTH 9
 #define MIN_HASH_VALUE 2
-#define MAX_HASH_VALUE 8
-/* maximum key range = 7, duplicates = 0 */
+#define MAX_HASH_VALUE 14
+/* maximum key range = 13, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -70,32 +73,32 @@ inline
     test(register const char *str, register size_t len)
 {
     static const unsigned char asso_values[] = {
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 0, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 5, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 0, 9,
-        9, 9, 9, 9, 9, 9, 0, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-        9, 9, 9, 9, 9, 9
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 0, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 5, 15, 15,
+        5, 15, 15, 15, 15, 15, 15, 15, 0, 15,
+        15, 15, 15, 15, 15, 15, 0, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+        15, 15, 15, 15, 15, 15
     };
     return len + asso_values[(unsigned char)str[0]];
 }
@@ -104,14 +107,18 @@ const struct test *
 in_tests(register const char *str, register size_t len)
 {
     static const struct test wordlist[] = {
-#line 25 "tests-hash.gperf"
-        { "-v", ARG_VERBOSE },
 #line 28 "tests-hash.gperf"
+        { "-v", ARG_VERBOSE },
+#line 33 "tests-hash.gperf"
         { "log", TESTS_LOG },
-#line 27 "tests-hash.gperf"
+#line 30 "tests-hash.gperf"
         { "test", TESTS_TEST },
-#line 26 "tests-hash.gperf"
-        { "all", TESTS_ALL }
+#line 29 "tests-hash.gperf"
+        { "all", TESTS_ALL },
+#line 31 "tests-hash.gperf"
+        { "data", TESTS_DATA },
+#line 32 "tests-hash.gperf"
+        { "data-dict", TESTS_DATA_DICT }
     };
 
     if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH) {
@@ -133,6 +140,12 @@ in_tests(register const char *str, register size_t len)
             case 6:
                 resword = &wordlist[3];
                 goto compare;
+            case 7:
+                resword = &wordlist[4];
+                goto compare;
+            case 12:
+                resword = &wordlist[5];
+                goto compare;
             }
             return 0;
         compare : {
@@ -145,7 +158,7 @@ in_tests(register const char *str, register size_t len)
     }
     return 0;
 }
-#line 29 "tests-hash.gperf"
+#line 34 "tests-hash.gperf"
 
 
 #ifdef __GNUC__

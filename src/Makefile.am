@@ -4,6 +4,11 @@ AM_CFLAGS = -std=c17 -Wall -Wextra -Werror
 bin_PROGRAMS = thing-test
 
 
+DATA_SOURCES = \
+	data/dict.c data/dict.h \
+	data/tests-dict.c
+
+
 LOG_SOURCES = \
 	log/dump.c \
 	log/internal.h \
@@ -18,6 +23,7 @@ TEST_SOURCES = \
 
 
 thing_test_SOURCES = \
+	$(DATA_SOURCES) \
 	$(LOG_SOURCES) \
 	$(TEST_SOURCES) \
 	main.c main.h \

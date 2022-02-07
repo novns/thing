@@ -12,4 +12,5 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "data/dict.h"
 #include "log/log.h"

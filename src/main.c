@@ -4,6 +4,7 @@
 #include "tests-hash.h"
 
 
+void tests_dict();
 void tests_log();
 void tests_test();
 
@@ -44,7 +45,16 @@ int main(int argc, char const *argv[])
 
         case TESTS_ALL:
             tests_test();
+            tests_dict();
             tests_log();
+            break;
+
+        case TESTS_DATA:
+            tests_dict();
+            break;
+
+        case TESTS_DATA_DICT:
+            tests_dict();
             break;
 
         case TESTS_LOG:
@@ -58,7 +68,7 @@ int main(int argc, char const *argv[])
     }
 
     if (!test_args)
-        log_fatal("Usage: %s [-v]  [all] [test]  [log]", argv[0]);
+        log_fatal("Usage: %s [-v]  [all] [test]  [data] [data-dict]  [log]", argv[0]);
 
 
     tests_summary();
