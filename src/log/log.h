@@ -3,6 +3,7 @@
 #include "main.h"
 
 
+#define ERROR_NULL "Cannot dereference a NULL pointer"
 #define ERROR_STRDUP "Cannot duplicate a string"
 
 
