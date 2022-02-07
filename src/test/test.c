@@ -54,10 +54,7 @@ void test_strcmp(SOURCE_INFO_ARGS,
                  const char *expression_1, const char *value_1,
                  const char *expression_2, const char *value_2)
 {
-    test_assert(SOURCE_INFO_VARS, expression_1, value_1);
-    test_assert(SOURCE_INFO_VARS, expression_2, value_2);
-
-    bool result = !strcmp(value_1, value_2);
+    bool result = value_1 && value_2 && !strcmp(value_1, value_2);
 
     stats_update(result);
 
@@ -93,7 +90,7 @@ void tests_test()
 
     log_info("Testing strcmp test");
 
-    TEST_STRCMP("String\0001", "String\0002");
+    TEST_STRCMP("String\0 1", "String\0 2");
 }
 
 
