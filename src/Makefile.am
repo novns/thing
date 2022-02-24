@@ -6,7 +6,9 @@ bin_PROGRAMS = thing-test
 
 DATA_SOURCES = \
 	data/dict.c data/dict.h \
-	data/tests-dict.c
+	data/str.c data/str.h \
+	data/tests-dict.c \
+	data/tests-str.c
 
 
 LOG_SOURCES = \

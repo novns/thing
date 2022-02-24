@@ -6,6 +6,7 @@
 
 void tests_dict();
 void tests_log();
+void tests_str();
 void tests_test();
 
 
@@ -31,7 +32,7 @@ int main(int argc, char const *argv[])
         const struct test *test = in_tests(argv[i], strlen(argv[i]));
 
         if (!test) {
-            log_error("Unknown test set '%s'", argv[i]);
+            log_error("Unknown %s '%s'", argv[i][0] == '-' ? "argument" : "test set", argv[i]);
             continue;
         }
 
@@ -46,15 +47,21 @@ int main(int argc, char const *argv[])
         case TESTS_ALL:
             tests_test();
             tests_dict();
+            tests_str();
             tests_log();
             break;
 
         case TESTS_DATA:
             tests_dict();
+            tests_str();
             break;
 
         case TESTS_DATA_DICT:
             tests_dict();
+            break;
+
+        case TESTS_DATA_STR:
+            tests_str();
             break;
 
         case TESTS_LOG:
@@ -68,7 +75,7 @@ int main(int argc, char const *argv[])
     }
 
     if (!test_args)
-        log_fatal("Usage: %s [-v]  [all] [test]  [data] [data-dict]  [log]", argv[0]);
+        log_fatal("Usage: %s [-v]  [all] [test]  [data] [data-dict] [data-str]  [log]", argv[0]);
 
 
     tests_summary();

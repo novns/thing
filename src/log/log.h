@@ -3,6 +3,7 @@
 #include "main.h"
 
 
+#define ERROR_ALLOC "Cannot allocate %zu bytes"
 #define ERROR_NULL "Cannot dereference a NULL pointer"
 #define ERROR_STRDUP "Cannot duplicate a string"
 

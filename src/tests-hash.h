@@ -50,12 +50,13 @@ struct test {
 
         TESTS_DATA,
         TESTS_DATA_DICT,
+        TESTS_DATA_STR,
 
         TESTS_LOG,
     } value;
 };
 
-#define TOTAL_KEYWORDS 6
+#define TOTAL_KEYWORDS 7
 #define MIN_WORD_LENGTH 2
 #define MAX_WORD_LENGTH 9
 #define MIN_HASH_VALUE 2
@@ -107,17 +108,19 @@ const struct test *
 in_tests(register const char *str, register size_t len)
 {
     static const struct test wordlist[] = {
-#line 28 "tests-hash.gperf"
-        { "-v", ARG_VERBOSE },
-#line 33 "tests-hash.gperf"
-        { "log", TESTS_LOG },
-#line 30 "tests-hash.gperf"
-        { "test", TESTS_TEST },
 #line 29 "tests-hash.gperf"
-        { "all", TESTS_ALL },
+        { "-v", ARG_VERBOSE },
+#line 35 "tests-hash.gperf"
+        { "log", TESTS_LOG },
 #line 31 "tests-hash.gperf"
-        { "data", TESTS_DATA },
+        { "test", TESTS_TEST },
+#line 30 "tests-hash.gperf"
+        { "all", TESTS_ALL },
 #line 32 "tests-hash.gperf"
+        { "data", TESTS_DATA },
+#line 34 "tests-hash.gperf"
+        { "data-str", TESTS_DATA_STR },
+#line 33 "tests-hash.gperf"
         { "data-dict", TESTS_DATA_DICT }
     };
 
@@ -143,8 +146,11 @@ in_tests(register const char *str, register size_t len)
             case 7:
                 resword = &wordlist[4];
                 goto compare;
-            case 12:
+            case 11:
                 resword = &wordlist[5];
+                goto compare;
+            case 12:
+                resword = &wordlist[6];
                 goto compare;
             }
             return 0;
@@ -158,7 +164,7 @@ in_tests(register const char *str, register size_t len)
     }
     return 0;
 }
-#line 34 "tests-hash.gperf"
+#line 36 "tests-hash.gperf"
 
 
 #ifdef __GNUC__

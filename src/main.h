@@ -13,4 +13,5 @@
 #include <string.h>
 
 #include "data/dict.h"
+#include "data/str.h"
 #include "log/log.h"
